@@ -4,7 +4,7 @@ const cors = require('cors');
 const data = require('./data');
 
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 
 // GET API endpoint
 app.get("/api/questions", cors(), (req, res) => {
@@ -12,6 +12,11 @@ app.get("/api/questions", cors(), (req, res) => {
 });
 
 // starting server
-app.listen(port, () => {
-    console.log(`Server listening at ${port}`);
+app.listen((PORT), (error) => {
+  if (error) {
+    console.log (`Uh oh, there's an error and we can't connect!`)
+  }
+    console.log(`Server listening at ${PORT} 🛸`);
 });
+
+module.exports = app;
