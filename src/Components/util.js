@@ -12,21 +12,6 @@ export function randomize(array){
 
 }
 
-// export function indexArray(array){
-//   let indexArray = [];
-//   for (let i = 0; i < array.length; i++){
-//     indexArray.push(i)
-//   }
-//   indexArray.
-// }
-//get an array of questions
-//randomize indices [0 to array.length-1]
-//return the randomized order of things
-
-//i think this might be better handled inside the Quiz component: now that you have the indices, you display the questions in order of the numbers in that array.
-//you pop out the index after it's shown.
-//have a local variable to keep track of how many questions so far have been answered. Or run a loop until the returned array from randomize is empty.
-
 //calculating the score:
 //right and wrong are numbers
 export function calculateScore(right, wrong){

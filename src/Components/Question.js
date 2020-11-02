@@ -1,8 +1,10 @@
 //displays questions;
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 
 const Question = ({question, submitAnswer}) => {
   const [userAnswer, setUserAnswer] = useState("");
+  const correctAnswer = question.correct;
 
   let copyAnswers = [question.correct, ...question.incorrect]
   const shuffleAnswers = (copyAnswers) => {
@@ -13,22 +15,33 @@ const Question = ({question, submitAnswer}) => {
       counter++;
     }
     copyAnswers = shuffleArr;
+
   }
 
 
 
-  const handleChange = (e) => {
-    setUserAnswer(e.target.value)
+  const handleChange = (event) => {
+    const pickedAnswer = event.target.value;
+    setUserAnswer(pickedAnswer);
   }
-  const handleSubmit = (e) => {
-    e.preventDefault()
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
     if(!userAnswer){
       return (
         alert("You need to pick an answer!")
       )
     }
-    userAnswer === question.correct ? submitAnswer(true) : submitAnswer(false)
+
+    if (userAnswer === correctAnswer){
+      submitAnswer(true)
+    } else {
+      // alert("the correct answer was:", correctAnswer)
+      console.log(correctAnswer, "This is correct")
+      submitAnswer(false)
+    }
+    // userAnswer === correctAnswer ? submitAnswer(true) : submitAnswer(false)
 
     setUserAnswer("")
   }
@@ -39,16 +52,21 @@ const Question = ({question, submitAnswer}) => {
   <form onSubmit={handleSubmit}>
     {question && copyAnswers.map(response => {
       return(
-        <div key={response} className="response-options">
-          <input type="radio" value={response} name="response-options" handleChange={handleChange} />
+        <div key={response} className={response}>
+          <input type="radio" value={response} name="response-options" onChange={handleChange} />
         {response}
         </div>
-      )
-    } )}
-  <button type="submit">Next</button>
+     )})}
+    <button type="submit">Next</button>
   </form>
     </div>
   )
 }
 
 export default Question
+
+
+Question.propTypes = {
+  handleChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired
+}

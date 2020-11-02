@@ -20,9 +20,10 @@ const Quiz = () => {
   //recommended that we don't keep the question on state, but call it when it needs to be called with a get method...?
   //guess we could write a filter to do conditional rendering.
   const [questionIdx, setQuestionIdx] = useState(0);
-  const [gotRight, setRight] = useState(0);
-  const [gotWrong, setWrong] = useState(0);
-  const [maxQuestions, setmaxQuestions] = useState(0);
+  const [gotRight, setRight] = useState(1);
+  const [gotWrong, setWrong] = useState(1);
+
+  const maxQuestions = 10;
 
   useEffect(() => {
     try {
@@ -30,7 +31,6 @@ const Quiz = () => {
         const response = await fetch('/api/data');
         const questions = await response.json();
         // console.log("this is the response", questions)
-        await setmaxQuestions(questions.length)
         randomize(questions);
       }
     fetchData();
@@ -56,18 +56,20 @@ const randomize = (questions) => {
 }
 
   const submitAnswer = async (answer) => {
-    await setQuestionIdx(() => questionIdx + 1);
+    console.log("answer stuff", answer)
+    setQuestionIdx(questionIdx+1);
     if (answer){
       setRight(gotRight+1)
+      console.log("gotRight", gotRight)
     } else {
       setWrong(gotWrong+1)
-      alert("this was the right answer!", answer)
+      console.log("gotwrong", gotWrong)
     }
 }
 
 
   const showQuestion = (question) => {
-    if (maxQuestions > 0 && allQuestions.length > 0) {
+    if (questionIdx < maxQuestions && allQuestions.length > 0) {
       return (<Question question={question} submitAnswer={submitAnswer} />)
     }
   }
@@ -76,7 +78,9 @@ const randomize = (questions) => {
   return (
     <>
     <StyledQuiz>
-     <StyledText> How super cool! </StyledText>
+     <StyledText>
+       <h2>Trivia Quiz!</h2>
+       </StyledText>
      { (questionIdx === maxQuestions ? <Result gotRight={gotRight} gotWrong={gotWrong} /> : showQuestion(allQuestions[questionIdx]))}
     </StyledQuiz>
     </>
@@ -84,5 +88,3 @@ const randomize = (questions) => {
 }
 
 export default Quiz;
-
-
