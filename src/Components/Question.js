@@ -1,6 +1,5 @@
 //displays questions;
 import React, { useState } from 'react'
-import Answers from './Answers';
 
 const Question = ({question, submitAnswer}) => {
   const [userAnswer, setUserAnswer] = useState("");
@@ -26,21 +25,28 @@ const Question = ({question, submitAnswer}) => {
 
     if(!userAnswer){
       return (
-        alert("You need to input an answer!")
+        alert("You need to pick an answer!")
       )
     }
-    userAnswer === question.correct_answer ? submitAnswer(true) : submitAnswer(false)
+    userAnswer === question.correct ? submitAnswer(true) : submitAnswer(false)
 
-    setUserAnswer('')
+    setUserAnswer("")
   }
 
   return (
     <div className="display-question">
-    {question.question}
-  {/* <form onSubmit={handleSubmit}>
-      {question.question}
-      <Answers correct={question.correct} incorrect={question.incorrect} onChange={handleChange}/>
-  </form> */}
+    {question && question.question}
+  <form onSubmit={handleSubmit}>
+    {question && copyAnswers.map(response => {
+      return(
+        <div key={response} className="response-options">
+          <input type="radio" value={response} name="response-options" handleChange={handleChange} />
+        {response}
+        </div>
+      )
+    } )}
+  <button type="submit">Next</button>
+  </form>
     </div>
   )
 }

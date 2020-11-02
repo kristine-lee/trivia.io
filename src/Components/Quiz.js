@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 
 import Question from './Question';
@@ -13,11 +13,6 @@ const StyledText = styled.span`
   position: absolute;
   margin: 49vh;
 `
-const StyledButton = styled.button`
-  background-color: white;
-`
-
-const questionObj = {question: "", correct: "", incorrect: []}
 
 const Quiz = () => {
   const [allQuestions, setAllQuestions] = useState([]);
@@ -27,8 +22,7 @@ const Quiz = () => {
   const [questionIdx, setQuestionIdx] = useState(0);
   const [gotRight, setRight] = useState(0);
   const [gotWrong, setWrong] = useState(0);
-  const [maxQuestions, setmaxQuestions] = useState(0)
-  const [userAnswer, setUserAnswer] = useState("");
+  const [maxQuestions, setmaxQuestions] = useState(0);
 
   useEffect(() => {
     try {
@@ -38,7 +32,6 @@ const Quiz = () => {
         // console.log("this is the response", questions)
         await setmaxQuestions(questions.length)
         randomize(questions);
-        //allQuestions maps but not Questions. Why?
       }
     fetchData();
    } catch (error) {
@@ -57,51 +50,33 @@ const randomize = (questions) => {
         shuffleArr.push(questions[index])
         counter++
       }
-    setAllQuestions(shuffleArr)
   }
+  setAllQuestions(shuffleArr)
+  console.log("all the questions", allQuestions)
 }
 
-// const memoQuestions = useMemo(() => randomize(questions), [allQuestions] )
-//i think this might be better handled inside the Quiz component: now that you have the indices, you display the questions in order of the numbers in that array.
-//you pop out the index after it's shown.
-//have a local variable to keep track of how many questions so far have been answered. Or run a loop until the returned array from randomize is empty.
-
-  const submitAnswer = (answer) => {
+  const submitAnswer = async (answer) => {
+    await setQuestionIdx(() => questionIdx + 1);
     if (answer){
       setRight(gotRight+1)
     } else {
       setWrong(gotWrong+1)
+      alert("this was the right answer!", answer)
     }
-  }
+}
 
- const handleSelect = (e) => {
-   setUserAnswer(e.target.value);
-   submitAnswer();
- }
 
- const setNextQuestion = () => {
-   setQuestionIdx(() => questionIdx + 1);
-  //  setQuestion(() => allQuestions[questionIdx]);
-
- }
-
- //does showQuestion run before useEffect?
   const showQuestion = (question) => {
-    if (maxQuestions > 0) {
+    if (maxQuestions > 0 && allQuestions.length > 0) {
       return (<Question question={question} submitAnswer={submitAnswer} />)
     }
   }
 
 
-
   return (
     <>
-    {console.log("ALLQUESTIONS", allQuestions)}
     <StyledQuiz>
      <StyledText> How super cool! </StyledText>
-     {/* {allQuestions.map(question => (<Question key={question.id} question={question} submitAnswer={submitAnswer}/>))}
-     <StyledButton type="submit">Submit!</StyledButton> */}
-     {/* {question && showQuestion()} */}
      { (questionIdx === maxQuestions ? <Result gotRight={gotRight} gotWrong={gotWrong} /> : showQuestion(allQuestions[questionIdx]))}
     </StyledQuiz>
     </>
@@ -110,7 +85,4 @@ const randomize = (questions) => {
 
 export default Quiz;
 
-/* Actions needed:
-- display question
- */
- //use prop types here to check
+
