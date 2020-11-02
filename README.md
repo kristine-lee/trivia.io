@@ -1,5 +1,6 @@
 ##Trivia Night!
 
+![Image](screenshot.jpg)
 -----------------------------------
 To run the program in your local environment:
 
