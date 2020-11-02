@@ -2,8 +2,21 @@
 import React, { useState } from 'react'
 import Answers from './Answers';
 
-const Question = ({ question, submitAnswer }) => {
-  const [userAnswer, setUserAnswer] = useState("")
+const Question = ({question, submitAnswer}) => {
+  const [userAnswer, setUserAnswer] = useState("");
+
+  let copyAnswers = [question.correct, ...question.incorrect]
+  const shuffleAnswers = (copyAnswers) => {
+    let counter = 0;
+    let shuffleArr = [];
+    while (counter < copyAnswers.length){
+      shuffleArr.push(copyAnswers[Math.floor(Math.random() * Math.floor(copyAnswers.length-1))])
+      counter++;
+    }
+    copyAnswers = shuffleArr;
+  }
+
+
 
   const handleChange = (e) => {
     setUserAnswer(e.target.value)
@@ -23,10 +36,11 @@ const Question = ({ question, submitAnswer }) => {
 
   return (
     <div className="display-question">
-  <form onSubmit={handleSubmit}>
+    {question.question}
+  {/* <form onSubmit={handleSubmit}>
       {question.question}
       <Answers correct={question.correct} incorrect={question.incorrect} onChange={handleChange}/>
-  </form>
+  </form> */}
     </div>
   )
 }

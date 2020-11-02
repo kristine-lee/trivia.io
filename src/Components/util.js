@@ -11,6 +11,14 @@ export function randomize(array){
   return copyArray
 
 }
+
+// export function indexArray(array){
+//   let indexArray = [];
+//   for (let i = 0; i < array.length; i++){
+//     indexArray.push(i)
+//   }
+//   indexArray.
+// }
 //get an array of questions
 //randomize indices [0 to array.length-1]
 //return the randomized order of things
