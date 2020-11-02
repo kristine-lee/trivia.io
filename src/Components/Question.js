@@ -38,8 +38,8 @@ const Question = ({question, submitAnswer}) => {
       submitAnswer(true)
     } else {
       // alert("the correct answer was:", correctAnswer)
-      console.log(correctAnswer, "This is correct")
       submitAnswer(false)
+      alert(`The correct answer is ${correctAnswer}`)
     }
     // userAnswer === correctAnswer ? submitAnswer(true) : submitAnswer(false)
 
