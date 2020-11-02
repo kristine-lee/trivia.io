@@ -5,13 +5,15 @@ import Question from './Question';
 import Result from './Result';
 
 const StyledQuiz = styled.div`
-  background-color: #DAF7A6;
+  background: rgb(238,174,202);
+  background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
   font-family: "Lucida Console", Monaco, monospace;
   height: 100vh;
 `
 const StyledText = styled.span`
-  position: absolute;
-  margin: 49vh;
+  position: relative;
+  left: 1em;
+  top: 1em;
 `
 
 const Quiz = () => {
@@ -20,8 +22,8 @@ const Quiz = () => {
   //recommended that we don't keep the question on state, but call it when it needs to be called with a get method...?
   //guess we could write a filter to do conditional rendering.
   const [questionIdx, setQuestionIdx] = useState(0);
-  const [gotRight, setRight] = useState(1);
-  const [gotWrong, setWrong] = useState(1);
+  const [gotRight, setRight] = useState(0);
+  const [gotWrong, setWrong] = useState(0);
 
   const maxQuestions = 10;
 
@@ -30,7 +32,6 @@ const Quiz = () => {
       async function fetchData() {
         const response = await fetch('/api/data');
         const questions = await response.json();
-        // console.log("this is the response", questions)
         randomize(questions);
       }
     fetchData();
@@ -80,8 +81,8 @@ const randomize = (questions) => {
     <StyledQuiz>
      <StyledText>
        <h2>Trivia Quiz!</h2>
-       </StyledText>
      { (questionIdx === maxQuestions ? <Result gotRight={gotRight} gotWrong={gotWrong} /> : showQuestion(allQuestions[questionIdx]))}
+     </StyledText>
     </StyledQuiz>
     </>
   )

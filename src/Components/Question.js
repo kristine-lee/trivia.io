@@ -1,6 +1,13 @@
 //displays questions;
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
+
+const StyledQuestion = styled.div`
+  background-color: white;
+  width: 50vw;
+  margin-left: 25%;
+`
 
 const Question = ({question, submitAnswer}) => {
   const [userAnswer, setUserAnswer] = useState("");
@@ -30,24 +37,22 @@ const Question = ({question, submitAnswer}) => {
 
     if(!userAnswer){
       return (
-        alert("You need to pick an answer!")
+        alert("Sorry, you need to pick an answer!")
       )
     }
 
     if (userAnswer === correctAnswer){
       submitAnswer(true)
     } else {
-      // alert("the correct answer was:", correctAnswer)
       submitAnswer(false)
       alert(`The correct answer is ${correctAnswer}`)
     }
-    // userAnswer === correctAnswer ? submitAnswer(true) : submitAnswer(false)
 
     setUserAnswer("")
   }
 
   return (
-    <div className="display-question">
+    <StyledQuestion>
     {question && question.question}
   <form onSubmit={handleSubmit}>
     {question && copyAnswers.map(response => {
@@ -59,7 +64,7 @@ const Question = ({question, submitAnswer}) => {
      )})}
     <button type="submit">Next</button>
   </form>
-    </div>
+    </StyledQuestion>
   )
 }
 

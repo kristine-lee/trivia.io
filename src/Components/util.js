@@ -13,8 +13,7 @@ export function randomize(array){
 }
 
 //calculating the score:
-//right and wrong are numbers
 export function calculateScore(right, wrong){
   return Math.round((right / (right + wrong)) * 100)
-}//add a percentage sign in the component
+}
 
